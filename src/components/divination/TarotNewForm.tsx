@@ -10,7 +10,7 @@ type SpreadId = 'single' | 'three' | 'celtic';
 interface SpreadConfig {
   id: SpreadId;
   count: number;
-  positions: string[]; // 多语言
+  positions: string[];
 }
 
 const SPREADS: Record<SpreadId, SpreadConfig> = {
@@ -47,8 +47,7 @@ export function TarotNewForm({ locale }: { locale: string }) {
 
     const cards = drawn.map((d, i) => ({
       cardId: d.card.id,
-      cardName:
-        d.card.name[locale as 'zh-CN' | 'zh-TW' | 'en'] ?? d.card.name['en'],
+      cardName: d.card.name[locale as 'zh-CN' | 'zh-TW' | 'en'] ?? d.card.name['en'],
       position: cfg.positions[i] ?? `card_${i + 1}`,
       upright: d.upright,
     }));
@@ -79,23 +78,28 @@ export function TarotNewForm({ locale }: { locale: string }) {
   const spreadEntries: SpreadId[] = ['single', 'three', 'celtic'];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h2 className="mb-3 text-lg font-semibold">{t('spreadsTitle')}</h2>
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+        <h2
+          className="mb-4 text-lg font-semibold text-gold"
+          style={{ fontFamily: 'var(--font-serif)' }}
+        >
+          ✦ {t('spreadsTitle')}
+        </h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {spreadEntries.map((id) => (
             <button
               key={id}
               type="button"
               onClick={() => setSpread(id)}
-              className={`rounded-lg border p-4 text-left transition ${
-                spread === id ? 'border-primary bg-primary/10' : 'hover:border-primary/50'
+              className={`mystic-card rounded-xl p-5 text-left transition-all ${
+                spread === id ? 'ring-2 ring-amber-500/60' : ''
               }`}
             >
-              <div className="mb-1 font-semibold">{t(`spreads.${id}.name`)}</div>
-              <div className="text-xs text-muted-foreground">{t(`spreads.${id}.desc`)}</div>
-              <div className="mt-2 text-xs">
-                {SPREADS[id].count} {SPREADS[id].count === 1 ? 'card' : 'cards'}
+              <div className="mb-1 font-semibold text-foreground">{t(`spreads.${id}.name`)}</div>
+              <div className="text-xs text-purple-200/60">{t(`spreads.${id}.desc`)}</div>
+              <div className="mt-3 text-xs text-gold">
+                ✦ {SPREADS[id].count} {SPREADS[id].count === 1 ? 'card' : 'cards'}
               </div>
             </button>
           ))}
@@ -103,8 +107,11 @@ export function TarotNewForm({ locale }: { locale: string }) {
       </div>
 
       <div>
-        <label htmlFor="question" className="mb-2 block text-sm font-medium">
-          {t('questionLabel')}
+        <label
+          htmlFor="question"
+          className="mb-2 block text-sm font-medium text-amber-100/80"
+        >
+          ✦ {t('questionLabel')}
         </label>
         <textarea
           id="question"
@@ -112,7 +119,7 @@ export function TarotNewForm({ locale }: { locale: string }) {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder={t('questionPlaceholder')}
-          className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none"
+          className="w-full rounded-lg border border-purple-500/30 bg-black/40 px-4 py-3 text-sm text-foreground placeholder:text-purple-300/40 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
         />
       </div>
 
@@ -120,7 +127,7 @@ export function TarotNewForm({ locale }: { locale: string }) {
         type="button"
         onClick={submit}
         disabled={isPending || !question.trim()}
-        className="inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-6 text-base font-medium text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
+        className="btn-mystic inline-flex h-14 w-full items-center justify-center rounded-full text-base font-semibold text-white disabled:opacity-50"
       >
         {isPending ? '...' : `✨ ${t('drawButton')}`}
       </button>

@@ -44,17 +44,19 @@ export function ReadingView({ sessionId, locale, module, basicText, isPaid, deep
   return (
     <div className="space-y-8">
       {/* 基础解读 */}
-      <section className="rounded-xl border bg-card p-6">
-        <h2 className="mb-4 text-xl font-bold">✨ {t('basicResultTitle')}</h2>
+      <section className="mystic-card rounded-xl p-6">
+        <h2 className="mb-4 text-xl font-bold text-gold" style={{ fontFamily: 'var(--font-serif)' }}>
+          ✨ {t('basicResultTitle')}
+        </h2>
         {basicText ? (
-          <div className="prose prose-sm max-w-none dark:prose-invert">
+          <div className="prose prose-sm max-w-none prose-invert prose-p:text-purple-100/80">
             {basicText.split('\n').map((line, i) => (
               <p key={i}>{line || ' '}</p>
             ))}
           </div>
         ) : (
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-500 border-t-transparent" />
             AI 正在解读中...
           </div>
         )}
@@ -62,18 +64,20 @@ export function ReadingView({ sessionId, locale, module, basicText, isPaid, deep
 
       {/* 深度报告解锁 */}
       {!isPaid && (
-        <section className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-purple-500/5 p-8 text-center">
+        <section className="mystic-card rounded-xl p-8 text-center">
           <div className="mb-2 text-4xl">🔓</div>
-          <h2 className="mb-2 text-2xl font-bold">{t('deepResultTitle')}</h2>
-          <p className="mb-6 text-sm text-muted-foreground">{t('deepTeaser')}</p>
-          <div className="mb-4 text-3xl font-bold text-primary">
+          <h2 className="mb-2 text-2xl font-bold text-gradient" style={{ fontFamily: 'var(--font-serif)' }}>
+            {t('deepResultTitle')}
+          </h2>
+          <p className="mb-6 text-sm text-purple-200/70">{t('deepTeaser')}</p>
+          <div className="mb-4 text-3xl font-bold text-gold">
             {formatPrice(deepPrice.amount, deepPrice.currency, locale as Locale)}
           </div>
           <button
             type="button"
             onClick={unlock}
             disabled={isPending}
-            className="inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-base font-medium text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
+            className="btn-mystic inline-flex h-12 items-center justify-center rounded-full px-8 text-base font-semibold text-white disabled:opacity-50"
           >
             {isPending ? '...' : t('unlockButton')}
           </button>
@@ -88,7 +92,7 @@ export function ReadingView({ sessionId, locale, module, basicText, isPaid, deep
           <button
             type="button"
             onClick={() => startTransition(() => router.push(`/${locale}/${module}/report/${sessionId}`))}
-            className="inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-base font-medium text-primary-foreground"
+            className="btn-mystic inline-flex h-12 items-center justify-center rounded-full px-8 text-base font-semibold text-white"
           >
             📖 查看深度解读报告
           </button>

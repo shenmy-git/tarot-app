@@ -22,12 +22,15 @@ export default async function ReadingPage({ params }: PageProps) {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-12">
       <div className="mb-6 flex items-center gap-3">
-        <div className="text-4xl">{cfg.icon}</div>
+        <div className="text-4xl mystic-card inline-block rounded-xl p-3">{cfg.icon}</div>
         <div>
-          <h1 className="text-2xl font-bold">
+          <h1
+            className="text-2xl font-bold text-gradient"
+            style={{ fontFamily: 'var(--font-serif)' }}
+          >
             {cfg.name[locale as keyof typeof cfg.name]}
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-purple-300/60">
             {new Date(session.createdAt).toLocaleString(locale)}
           </p>
         </div>
