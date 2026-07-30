@@ -65,7 +65,9 @@ export function TarotNewForm({ locale }: { locale: string }) {
     });
 
     if (!res.ok) {
-      alert('创建失败，请重试');
+      const text = await res.text().catch(() => '');
+      console.error('[tarot] create failed', res.status, text);
+      alert(`创建失败 (${res.status}): ${text.slice(0, 200)}`);
       return;
     }
     const { sessionId } = (await res.json()) as { sessionId: string };

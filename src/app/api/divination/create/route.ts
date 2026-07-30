@@ -1,11 +1,10 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
 import { db } from '@/db';
-import { divinationSessions, paymentIntents } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { divinationSessions } from '@/db/schema';
 import { getClientIp, hashIdentifier } from '@/lib/crypto';
 import { LIMITS } from '@/config/limits';
-import { isDivinationModule, isLocale, type Locale } from '@/config/divination';
+import { isDivinationModule, isLocale } from '@/config/divination';
 import { inngest } from '@/jobs/client';
 import { getRecentSessionsByIp } from '@/db/queries/divination';
 
@@ -55,28 +54,44 @@ export async function POST(request: NextRequest) {
     ...(inputs ?? {}),
   };
 
-  const [session] = await db
-    .insert(divinationSessions)
-    .values({
-      module,
-      locale,
-      userInputs,
-      ipHash,
-      userAgent: request.headers.get('user-agent') ?? null,
-      paymentStatus: 'free',
-    })
-    .returning();
+  let session;
+  try {
+    [session] = await db
+      .insert(divinationSessions)
+      .values({
+        module,
+        locale,
+        userInputs,
+        ipHash,
+        userAgent: request.headers.get('user-agent') ?? null,
+        paymentStatus: 'free',
+      })
+      .returning();
+  } catch (err) {
+    console.error('[divination/create] DB insert failed:', err);
+    return NextResponse.json(
+      {
+        error: 'db_failed',
+        message: (err as Error).message,
+      },
+      { status: 500 },
+    );
+  }
 
-  // 触发 Inngest 生成基础解读
-  await inngest.send({
-    name: 'divination/created',
-    data: {
-      sessionId: session.id,
-      module: module as 'tarot' | 'astrology' | 'bazi' | 'yijing' | 'dream' | 'birthchart',
-      locale: locale as 'zh-CN' | 'zh-TW' | 'en',
-      userInputs,
-    },
-  });
+  // 触发 Inngest 生成基础解读（失败不阻塞主流程，session 已创建）
+  try {
+    await inngest.send({
+      name: 'divination/created',
+      data: {
+        sessionId: session.id,
+        module: module as 'tarot' | 'astrology' | 'bazi' | 'yijing' | 'dream' | 'birthchart',
+        locale: locale as 'zh-CN' | 'zh-TW' | 'en',
+        userInputs,
+      },
+    });
+  } catch (err) {
+    console.error('[divination/create] inngest send failed (non-fatal):', err);
+  }
 
   return NextResponse.json({ sessionId: session.id });
 }

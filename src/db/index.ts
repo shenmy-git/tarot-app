@@ -17,14 +17,17 @@ let cachedDb: PostgresJsDatabase<typeof schema> | null = null;
 function buildDb(): PostgresJsDatabase<typeof schema> {
   if (global.__db) return global.__db;
 
-  const connectionString =
-    process.env.SUPABASE_DB_URL ?? process.env.DATABASE_URL;
+  const rawUrl = process.env.SUPABASE_DB_URL ?? process.env.DATABASE_URL;
 
-  if (!connectionString) {
+  if (!rawUrl) {
     throw new Error(
       'Database not configured: set SUPABASE_DB_URL or DATABASE_URL',
     );
   }
+
+  // 关键：密码中的特殊字符（! # @ 等）必须 percent-encode
+  // 否则 URL.parse 直接抛 Invalid URL
+  const connectionString = encodeDbPassword(rawUrl);
 
   const client: Sql =
     global.__pgClient ??
@@ -39,6 +42,21 @@ function buildDb(): PostgresJsDatabase<typeof schema> {
 
   global.__db = drizzle(client, { schema });
   return global.__db;
+}
+
+/**
+ * 对 PostgreSQL 连接字符串中的密码进行 percent-encode。
+ * 解析 user:pass@host，单独 encode password。
+ */
+function encodeDbPassword(url: string): string {
+  try {
+    const m = url.match(/^(postgresql?:\/\/)([^:]+):([^@]+)@(.+)$/);
+    if (!m) return url;
+    const [, scheme, user, pass, rest] = m;
+    return `${scheme}${user}:${encodeURIComponent(pass)}@${rest}`;
+  } catch {
+    return url;
+  }
 }
 
 /**
