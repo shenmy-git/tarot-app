@@ -28,6 +28,19 @@ const BodySchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  try {
+    return await handle(request);
+  } catch (err) {
+    const e = err as Error;
+    console.error('[divination/create] unhandled:', e);
+    return NextResponse.json(
+      { error: 'unhandled', message: e?.message ?? String(err), stack: e?.stack?.split('\n').slice(0, 6) },
+      { status: 500 },
+    );
+  }
+}
+
+async function handle(request: NextRequest) {
   const body = await request.json().catch(() => null);
   const parsed = BodySchema.safeParse(body);
   if (!parsed.success) {

@@ -46,14 +46,20 @@ function buildDb(): PostgresJsDatabase<typeof schema> {
 
 /**
  * 对 PostgreSQL 连接字符串中的密码进行 percent-encode。
- * 解析 user:pass@host，单独 encode password。
+ * 幂等：先 decode 再 encode，避免已编码的密码被二次编码（% -> %25）。
  */
 function encodeDbPassword(url: string): string {
   try {
-    const m = url.match(/^(postgresql?:\/\/)([^:]+):([^@]+)@(.+)$/);
+    const m = url.match(/^(postgresql?:\/\/)([^:/@]+):([^@]+)@(.+)$/);
     if (!m) return url;
     const [, scheme, user, pass, rest] = m;
-    return `${scheme}${user}:${encodeURIComponent(pass)}@${rest}`;
+    let raw = pass;
+    try {
+      raw = decodeURIComponent(pass);
+    } catch {
+      // pass 含裸 % ，按原样处理
+    }
+    return `${scheme}${user}:${encodeURIComponent(raw)}@${rest}`;
   } catch {
     return url;
   }

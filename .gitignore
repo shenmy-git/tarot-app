@@ -56,3 +56,6 @@ coverage/
 vercel_*.html
 supabase-openapi.html
 *.html.tmp
+# local debug scripts (may contain secrets)
+scripts/*.mjs
+scripts/test-*.ts
