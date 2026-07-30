@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import type { Locale } from '@/config/divination';
 import { formatPrice } from '@/payments/pricing';
+import { FEATURES } from '@/config/limits';
 
 interface ReadingViewProps {
   sessionId: string;
@@ -62,8 +63,20 @@ export function ReadingView({ sessionId, locale, module, basicText, isPaid, deep
         )}
       </section>
 
-      {/* 深度报告解锁 */}
-      {!isPaid && (
+      {/* 深度解读入口（全流程免费） */}
+      {FEATURES.FREE_MODE ? (
+        <div className="text-center">
+          <button
+            type="button"
+            onClick={() => startTransition(() => router.push(`/${locale}/${module}/report/${sessionId}`))}
+            disabled={isPending}
+            className="btn-mystic inline-flex h-12 items-center justify-center rounded-full px-8 text-base font-semibold text-white disabled:opacity-50"
+          >
+            {isPending ? '...' : '📖 查看深度解读报告'}
+          </button>
+          <p className="mt-3 text-xs text-muted-foreground">✦ 全部内容免费</p>
+        </div>
+      ) : !isPaid ? (
         <section className="mystic-card rounded-xl p-8 text-center">
           <div className="mb-2 text-4xl">🔓</div>
           <h2 className="mb-2 text-2xl font-bold text-gradient" style={{ fontFamily: 'var(--font-serif)' }}>
@@ -84,10 +97,7 @@ export function ReadingView({ sessionId, locale, module, basicText, isPaid, deep
           {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
           <p className="mt-3 text-xs text-muted-foreground">{t('paymentMethods')}</p>
         </section>
-      )}
-
-      {/* 已支付：跳转深度报告 */}
-      {isPaid && (
+      ) : (
         <div className="text-center">
           <button
             type="button"

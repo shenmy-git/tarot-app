@@ -8,6 +8,7 @@ import { db } from '@/db';
 import { divinationSessions, aiJobs } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import type { Locale } from '@/config/divination';
+import { FEATURES } from '@/config/limits';
 import type { TarotCardDraw } from '@/ai/prompts/tarot';
 
 /**
@@ -65,6 +66,14 @@ export const generateBasicReading = inngest.createFunction(
         status: 'success',
       });
     });
+
+    // 全流程免费：直接续上深度解读，无需支付
+    if (FEATURES.FREE_MODE) {
+      await step.sendEvent('trigger-deep', {
+        name: 'divination/deep-requested',
+        data: { sessionId },
+      });
+    }
 
     return { sessionId, ok: true };
   },

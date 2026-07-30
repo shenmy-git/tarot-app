@@ -11,8 +11,8 @@ import type { Locale } from '@/config/divination';
 import type { TarotCardDraw } from '@/ai/prompts/tarot';
 
 /**
- * 支付成功后触发，AI 生成深度解读报告。
- * 触发：payment/paid 事件
+ * 生成深度解读报告。
+ * 触发：payment/paid（付费流程）或 divination/deep-requested（全流程免费模式）
  */
 export const generateDeepReport = inngest.createFunction(
   {
@@ -21,23 +21,27 @@ export const generateDeepReport = inngest.createFunction(
     // 如果 AI 失败，3 次重试
     retries: 3,
   },
-  { event: 'payment/paid' },
+  [{ event: 'payment/paid' }, { event: 'divination/deep-requested' }],
   async ({ event, step }) => {
-    const { paymentIntentId, sessionId } = event.data;
+    const { sessionId } = event.data;
+    const paymentIntentId =
+      'paymentIntentId' in event.data ? event.data.paymentIntentId : undefined;
     const startTime = Date.now();
 
-    // 1. 校验支付状态
-    const intent = await step.run('verify-payment', async () => {
-      const rows = await db
-        .select()
-        .from(paymentIntents)
-        .where(eq(paymentIntents.id, paymentIntentId))
-        .limit(1);
-      return rows[0] ?? null;
-    });
+    // 1. 校验支付状态（免费模式下跳过）
+    if (paymentIntentId) {
+      const intent = await step.run('verify-payment', async () => {
+        const rows = await db
+          .select()
+          .from(paymentIntents)
+          .where(eq(paymentIntents.id, paymentIntentId))
+          .limit(1);
+        return rows[0] ?? null;
+      });
 
-    if (!intent || intent.status !== 'paid') {
-      throw new Error(`Payment intent not paid: ${paymentIntentId}`);
+      if (!intent || intent.status !== 'paid') {
+        throw new Error(`Payment intent not paid: ${paymentIntentId}`);
+      }
     }
 
     // 2. 加载 session

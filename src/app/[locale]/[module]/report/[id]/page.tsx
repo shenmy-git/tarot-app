@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { Disclaimer } from '@/components/common/Disclaimer';
 import { getSessionById } from '@/db/queries/divination';
 import { DIVINATION_MODULES, isDivinationModule, type Locale } from '@/config/divination';
+import { FEATURES } from '@/config/limits';
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -12,7 +13,7 @@ export default async function ReportPage({ params }: PageProps) {
   const session = await getSessionById(id);
   if (!session || !isDivinationModule(session.module)) notFound();
 
-  if (session.paymentStatus !== 'paid') {
+  if (!FEATURES.FREE_MODE && session.paymentStatus !== 'paid') {
     return (
       <div className="container mx-auto max-w-2xl px-4 py-16 text-center">
         <h1

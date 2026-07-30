@@ -16,6 +16,12 @@ type Events = {
       sessionId: string;
     };
   };
+  /** 全流程免费模式下，基础解读完成后直接请求深度解读。 */
+  'divination/deep-requested': {
+    data: {
+      sessionId: string;
+    };
+  };
   'cron/sync-wikipedia': { data: Record<string, never> };
   'cron/generate-daily-content': { data: Record<string, never> };
   'cron/cleanup-expired': { data: Record<string, never> };

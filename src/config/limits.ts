@@ -17,3 +17,14 @@ export const LIMITS = {
   /** AI 流式响应的超时（ms）。 */
   AI_STREAM_TIMEOUT_MS: 60_000,
 } as const;
+
+/**
+ * 功能开关。
+ */
+export const FEATURES = {
+  /**
+   * 全流程免费：跳过支付墙，深度解读随基础解读一起自动生成。
+   * 设 NEXT_PUBLIC_FREE_MODE=false 可恢复付费流程。
+   */
+  FREE_MODE: process.env.NEXT_PUBLIC_FREE_MODE !== 'false',
+} as const;
