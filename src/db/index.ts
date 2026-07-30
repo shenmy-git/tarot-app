@@ -1,29 +1,56 @@
 import 'server-only';
-import { drizzle } from 'drizzle-orm/postgres-js';
+import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
 
-const connectionString =
-  process.env.SUPABASE_DB_URL ??
-  process.env.DATABASE_URL ??
-  // 本地 fallback，避免 import 时崩溃
-  'postgresql://localhost/placeholder';
+type Sql = ReturnType<typeof postgres>;
 
 declare global {
   // eslint-disable-next-line no-var
-  var __pgClient: ReturnType<typeof postgres> | undefined;
+  var __pgClient: Sql | undefined;
+  // eslint-disable-next-line no-var
+  var __db: PostgresJsDatabase<typeof schema> | undefined;
 }
 
-const client =
-  global.__pgClient ??
-  postgres(connectionString, {
-    prepare: false, // Supabase pooler 需要 prepare:false
-    max: 10,
-  });
+let cachedDb: PostgresJsDatabase<typeof schema> | null = null;
 
-if (process.env.NODE_ENV !== 'production') {
-  global.__pgClient = client;
+function buildDb(): PostgresJsDatabase<typeof schema> {
+  if (global.__db) return global.__db;
+
+  const connectionString =
+    process.env.SUPABASE_DB_URL ?? process.env.DATABASE_URL;
+
+  if (!connectionString) {
+    throw new Error(
+      'Database not configured: set SUPABASE_DB_URL or DATABASE_URL',
+    );
+  }
+
+  const client: Sql =
+    global.__pgClient ??
+    postgres(connectionString, {
+      prepare: false,
+      max: 10,
+    });
+
+  if (process.env.NODE_ENV !== 'production') {
+    global.__pgClient = client;
+  }
+
+  global.__db = drizzle(client, { schema });
+  return global.__db;
 }
 
-export const db = drizzle(client, { schema });
+/**
+ * 懒加载 Proxy：避免 build 阶段在没 env 时尝试连接 Postgres。
+ * 任何 `db.xxx` 调用都会按需触发 `buildDb()`。
+ */
+export const db = new Proxy({} as PostgresJsDatabase<typeof schema>, {
+  get(_target, prop) {
+    const real = cachedDb ?? buildDb();
+    cachedDb = real;
+    return Reflect.get(real, prop);
+  },
+});
+
 export { schema };
