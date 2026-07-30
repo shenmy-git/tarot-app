@@ -1,0 +1,136 @@
+{
+  "common": {
+    "disclaimer": "For entertainment purposes only. Not professional advice.",
+    "disclaimerTitle": "Friendly Reminder",
+    "loading": "Loading...",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "free": "Free",
+    "viewAll": "View all",
+    "language": "Language",
+    "switchTo": "Switch to"
+  },
+  "nav": {
+    "home": "Home",
+    "tarot": "Tarot Reading",
+    "astrology": "Astrology",
+    "bazi": "Ba Zi Reading",
+    "yijing": "I Ching Reference",
+    "dream": "Dream Interpretation",
+    "birthchart": "Birth Chart",
+    "pricing": "Pricing",
+    "about": "About"
+  },
+  "home": {
+    "hero": {
+      "title": "6 Mystical Readings — Find the Answers Within",
+      "subtitle": "Ancient wisdom meets modern AI to give you the insights you need"
+    },
+    "modulesTitle": "Choose a Reading",
+    "featuredTitle": "Featured Today",
+    "cta": "Get Started"
+  },
+  "tarot": {
+    "title": "Tarot Reading",
+    "description": "Draw from 78 tarot cards and receive guidance from within",
+    "spreadsTitle": "Choose a Spread",
+    "spreads": {
+      "single": { "name": "Single Card", "desc": "Quick answers to a focused question", "count": 1 },
+      "three": { "name": "Three Cards", "desc": "Past, present, future", "count": 3 },
+      "celtic": { "name": "Celtic Cross", "desc": "Deep dive into complex questions", "count": 10 }
+    },
+    "questionLabel": "Your Question",
+    "questionPlaceholder": "Describe what you'd like guidance on...",
+    "drawButton": "Draw & Interpret",
+    "basicResultTitle": "Basic Reading",
+    "deepResultTitle": "Deep Reading",
+    "deepTeaser": "Unlock the full report with detailed meanings, symbolism, and action steps for each card",
+    "unlockButton": "Unlock Deep Report",
+    "unlockPrice": "${price}",
+    "paymentMethods": "Credit Card / Apple Pay"
+  },
+  "astrology": {
+    "title": "Astrology",
+    "description": "Enter your birthday to understand your personality tendencies",
+    "birthdayLabel": "Birthday",
+    "sunSignLabel": "Sun Sign",
+    "basicResultTitle": "Today's Tendencies",
+    "deepResultTitle": "Full Chart Reading",
+    "deepTeaser": "Unlock personality analysis, near-term tendencies, and relationship insights",
+    "unlockButton": "Unlock Full Reading"
+  },
+  "bazi": {
+    "title": "Ba Zi Reading",
+    "description": "Five-element analysis based on your birth data",
+    "birthdayLabel": "Birthday",
+    "birthtimeLabel": "Birth Hour",
+    "basicResultTitle": "Quick Insight",
+    "deepResultTitle": "Full Destiny Chart",
+    "deepTeaser": "Unlock five-element balance, in-depth personality analysis, and near-term tendencies",
+    "unlockButton": "Unlock Full Reading"
+  },
+  "yijing": {
+    "title": "I Ching Reference",
+    "description": "Draw from the ancient 64 hexagrams",
+    "questionLabel": "What would you like guidance on?",
+    "drawButton": "Draw a Hexagram",
+    "basicResultTitle": "Hexagram Insight",
+    "deepResultTitle": "Full Hexagram Reading",
+    "deepTeaser": "Unlock the full hexagram text, changing lines analysis, and action advice",
+    "unlockButton": "Unlock Full Reading"
+  },
+  "dream": {
+    "title": "Dream Interpretation",
+    "description": "Describe your dream and let AI analyze its imagery",
+    "dreamLabel": "Dream Description",
+    "dreamPlaceholder": "Describe your dream in detail...",
+    "basicResultTitle": "Quick Symbol Scan",
+    "deepResultTitle": "Full Dream Analysis",
+    "deepTeaser": "Unlock emotional analysis, symbolism, and underlying psychology",
+    "unlockButton": "Unlock Full Reading"
+  },
+  "birthchart": {
+    "title": "Birth Chart",
+    "description": "Western astrology chart based on your precise birth time",
+    "birthdayLabel": "Birthday",
+    "birthtimeLabel": "Birth Time",
+    "birthplaceLabel": "Birthplace",
+    "basicResultTitle": "Sun Sign Snapshot",
+    "deepResultTitle": "Full Birth Chart Reading",
+    "deepTeaser": "Unlock rising sign, moon sign, and planetary placements",
+    "unlockButton": "Unlock Full Reading"
+  },
+  "payment": {
+    "title": "Unlock Full Reading",
+    "processing": "Processing...",
+    "redirecting": "Redirecting to checkout",
+    "success": "Payment successful!",
+    "failed": "Payment failed, please try again",
+    "deepReportReady": "Your full reading is ready",
+    "generateAgain": "Regenerate"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "freeTitle": "Basic Reading",
+    "freeDesc": "Every module includes a free basic reading",
+    "deepTitle": "Deep Reading",
+    "deepDesc": "AI-generated comprehensive report",
+    "faqTitle": "Frequently Asked Questions",
+    "faqs": [
+      { "q": "Is this reading accurate?", "a": "This service uses AI models and traditional cultural references for entertainment only. It does not constitute professional advice." },
+      { "q": "How do I pay?", "a": "WeChat Pay and Alipay are supported in China. Credit cards are supported internationally." },
+      { "q": "Can I get a refund?", "a": "If you haven't viewed the full reading, you can request a refund within 24 hours." }
+    ]
+  },
+  "about": {
+    "title": "About",
+    "intro": "We combine traditional cultural wisdom with modern AI to give you 6 different angles of self-reference tools.",
+    "values": [
+      "Entertainment first: all readings are for entertainment only",
+      "AI-assisted: powered by Claude and GPT",
+      "Privacy focused: we don't collect personal identity information"
+    ]
+  }
+}

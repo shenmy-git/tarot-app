@@ -1,0 +1,53 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+.pnpm-store/
+
+# next.js
+.next/
+out/
+build/
+
+# env
+.env
+.env*.local
+!.env.example
+
+# supabase
+supabase/.branches/
+supabase/.temp/
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Inngest
+inngest-cli-data/
+
+# Vercel
+.vercel/
+
+# Drizzle Studio cache
+.drizzle-kit/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test coverage
+coverage/
+
+# Cache
+.cache/
+.eslintcache

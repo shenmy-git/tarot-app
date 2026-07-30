@@ -1,0 +1,136 @@
+{
+  "common": {
+    "disclaimer": "本服务仅供娱乐参考，不构成任何决策建议",
+    "disclaimerTitle": "温馨提示",
+    "loading": "加载中...",
+    "submit": "提交",
+    "cancel": "取消",
+    "back": "返回",
+    "next": "下一步",
+    "free": "免费",
+    "viewAll": "查看全部",
+    "language": "语言",
+    "switchTo": "切换至"
+  },
+  "nav": {
+    "home": "首页",
+    "tarot": "塔罗解读",
+    "astrology": "星座解读",
+    "bazi": "八字解读",
+    "yijing": "周易抽签",
+    "dream": "梦境解析",
+    "birthchart": "出生星图",
+    "pricing": "价格",
+    "about": "关于"
+  },
+  "home": {
+    "hero": {
+      "title": "6 种神秘解读，发现你内心的答案",
+      "subtitle": "基于古老的智慧与现代 AI，提供你需要的洞察"
+    },
+    "modulesTitle": "选择一个解读",
+    "featuredTitle": "今日推荐",
+    "cta": "开始"
+  },
+  "tarot": {
+    "title": "塔罗解读",
+    "description": "从 78 张塔罗牌中抽取，获得你内心的指引",
+    "spreadsTitle": "选择牌阵",
+    "spreads": {
+      "single": { "name": "单张牌", "desc": "适合快速的问题与指引", "count": 1 },
+      "three": { "name": "时间之流", "desc": "过去、现在、未来", "count": 3 },
+      "celtic": { "name": "凯尔特十字", "desc": "深度解读复杂问题", "count": 10 }
+    },
+    "questionLabel": "你的问题",
+    "questionPlaceholder": "请描述你想要参考的问题...",
+    "drawButton": "抽牌并解读",
+    "basicResultTitle": "基础解读",
+    "deepResultTitle": "深度解读",
+    "deepTeaser": "解锁完整解读报告，包含每张牌的详细含义、象征、行动建议",
+    "unlockButton": "解锁深度报告",
+    "unlockPrice": "{price} 元",
+    "paymentMethods": "微信支付 / 支付宝"
+  },
+  "astrology": {
+    "title": "星座解读",
+    "description": "输入你的出生日期，了解你的性格倾向",
+    "birthdayLabel": "出生日期",
+    "sunSignLabel": "太阳星座",
+    "basicResultTitle": "今日倾向",
+    "deepResultTitle": "完整星图解读",
+    "deepTeaser": "解锁性格分析、近期倾向、关系参考",
+    "unlockButton": "解锁完整解读"
+  },
+  "bazi": {
+    "title": "八字解读",
+    "description": "基于出生年月日的五行分析",
+    "birthdayLabel": "出生日期",
+    "birthtimeLabel": "出生时辰",
+    "basicResultTitle": "八字简析",
+    "deepResultTitle": "完整命盘分析",
+    "deepTeaser": "解锁五行平衡、性格深度分析、近期倾向",
+    "unlockButton": "解锁完整解读"
+  },
+  "yijing": {
+    "title": "周易抽签",
+    "description": "古老 64 卦随机抽取",
+    "questionLabel": "你想参考什么？",
+    "drawButton": "抽签",
+    "basicResultTitle": "卦象简释",
+    "deepResultTitle": "完整卦辞解读",
+    "deepTeaser": "解锁卦辞详解、变爻分析、行动建议",
+    "unlockButton": "解锁完整解读"
+  },
+  "dream": {
+    "title": "梦境解析",
+    "description": "描述你的梦境，AI 帮你分析意象",
+    "dreamLabel": "梦境描述",
+    "dreamPlaceholder": "详细描述你记得的梦境...",
+    "basicResultTitle": "意象速览",
+    "deepResultTitle": "完整梦境分析",
+    "deepTeaser": "解锁情绪分析、象征意义、潜在心理",
+    "unlockButton": "解锁完整解读"
+  },
+  "birthchart": {
+    "title": "出生星图",
+    "description": "基于精确出生时间的西方星盘分析",
+    "birthdayLabel": "出生日期",
+    "birthtimeLabel": "出生时间",
+    "birthplaceLabel": "出生地点",
+    "basicResultTitle": "太阳星座速览",
+    "deepResultTitle": "完整出生星图解读",
+    "deepTeaser": "解锁上升、月亮、星位分析",
+    "unlockButton": "解锁完整解读"
+  },
+  "payment": {
+    "title": "解锁完整解读",
+    "processing": "处理中...",
+    "redirecting": "正在跳转到支付页面",
+    "success": "支付成功！",
+    "failed": "支付失败，请重试",
+    "deepReportReady": "你的完整解读已就绪",
+    "generateAgain": "重新生成"
+  },
+  "pricing": {
+    "title": "价格",
+    "freeTitle": "基础解读",
+    "freeDesc": "每个模块都有免费的基础解读",
+    "deepTitle": "深度解读",
+    "deepDesc": "AI 生成完整详细报告",
+    "faqTitle": "常见问题",
+    "faqs": [
+      { "q": "这个解读准确吗？", "a": "本服务基于 AI 模型和传统文化资料，仅供娱乐参考，不构成任何专业建议。" },
+      { "q": "如何支付？", "a": "国内支持微信支付和支付宝，海外支持信用卡。" },
+      { "q": "可以退款吗？", "a": "如未查看完整解读，可在 24 小时内申请退款。" }
+    ]
+  },
+  "about": {
+    "title": "关于",
+    "intro": "我们结合传统文化智慧与现代 AI，为你提供 6 种不同角度的自我参考工具。",
+    "values": [
+      "娱乐优先：所有解读仅供娱乐",
+      "AI 辅助：基于 Claude 与 GPT 模型",
+      "隐私保护：不收集个人身份信息"
+    ]
+  }
+}

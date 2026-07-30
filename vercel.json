@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/sync-wikipedia",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/generate-daily-content",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/cleanup-expired",
+      "schedule": "0 3 * * 0"
+    }
+  ]
+}
