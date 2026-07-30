@@ -80,6 +80,10 @@ function makeLanguageModel(spec: ModelSpec) {
 
 /**
  * 基础解读：非流式，返回完整文本。
+ *
+ * 注意：sensenova-6.7-flash-lite 是推理模型，会先消耗 1700-2900 token 做隐式
+ * reasoning 才开始输出 content。maxTokens 必须留足预算，否则 finish_reason=length
+ * 且 content 为空字符串。
  */
 export async function generateBasic(prompt: string, systemPrompt?: string): Promise<BasicResult> {
   const spec = pickBasic();
@@ -87,7 +91,7 @@ export async function generateBasic(prompt: string, systemPrompt?: string): Prom
     model: makeLanguageModel(spec),
     system: systemPrompt,
     prompt,
-    maxTokens: 800,
+    maxTokens: 4000,
     temperature: 0.7,
     abortSignal: AbortSignal.timeout(LIMITS.AI_STREAM_TIMEOUT_MS),
   });
@@ -111,7 +115,7 @@ export function streamDeep(prompt: string, systemPrompt?: string): DeepStream {
     model: makeLanguageModel(spec),
     system: systemPrompt,
     prompt,
-    maxTokens: 3000,
+    maxTokens: 6000,
     temperature: 0.8,
     abortSignal: AbortSignal.timeout(LIMITS.AI_STREAM_TIMEOUT_MS),
   });

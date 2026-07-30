@@ -14,8 +14,8 @@ export const LIMITS = {
   /** 塔罗抽牌数量上限。 */
   MAX_CARDS_PER_SPREAD: 10,
 
-  /** AI 流式响应的超时（ms）。 */
-  AI_STREAM_TIMEOUT_MS: 60_000,
+  /** AI 流式响应的超时（ms）。推理模型较慢，留足余量。 */
+  AI_STREAM_TIMEOUT_MS: 120_000,
 } as const;
 
 /**

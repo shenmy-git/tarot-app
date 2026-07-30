@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import type { Locale } from '@/config/divination';
@@ -21,6 +21,35 @@ export function ReadingView({ sessionId, locale, module, basicText, isPaid, deep
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [text, setText] = useState<string | null>(basicText);
+  const [genError, setGenError] = useState<string | null>(null);
+
+  // 基础解读尚未生成 → 按需触发（不依赖 Inngest）
+  useEffect(() => {
+    if (text) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/divination/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId, tier: 'basic' }),
+        });
+        const data = (await res.json()) as { text?: string; message?: string };
+        if (cancelled) return;
+        if (!res.ok || !data.text) {
+          setGenError(data.message ?? '解读生成失败，请刷新重试');
+          return;
+        }
+        setText(data.text);
+      } catch {
+        if (!cancelled) setGenError('网络异常，请刷新重试');
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [sessionId, text]);
 
   async function unlock() {
     setError(null);
@@ -49,12 +78,14 @@ export function ReadingView({ sessionId, locale, module, basicText, isPaid, deep
         <h2 className="mb-4 text-xl font-bold text-gold" style={{ fontFamily: 'var(--font-serif)' }}>
           ✨ {t('basicResultTitle')}
         </h2>
-        {basicText ? (
+        {text ? (
           <div className="prose prose-sm max-w-none prose-invert prose-p:text-purple-100/80">
-            {basicText.split('\n').map((line, i) => (
+            {text.split('\n').map((line, i) => (
               <p key={i}>{line || ' '}</p>
             ))}
           </div>
+        ) : genError ? (
+          <p className="text-sm text-destructive">{genError}</p>
         ) : (
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-500 border-t-transparent" />

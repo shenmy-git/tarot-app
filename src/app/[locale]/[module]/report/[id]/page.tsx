@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { Disclaimer } from '@/components/common/Disclaimer';
+import { DeepReportView } from '@/components/divination/DeepReportView';
 import { getSessionById } from '@/db/queries/divination';
 import { DIVINATION_MODULES, isDivinationModule, type Locale } from '@/config/divination';
 import { FEATURES } from '@/config/limits';
@@ -51,22 +52,8 @@ export default async function ReportPage({ params }: PageProps) {
       >
         {cfg.icon} {cfg.paidResultLabel[locale as keyof typeof cfg.paidResultLabel]}
       </h1>
-      <p className="mb-8 text-sm text-amber-100/60">
-        {isReady ? '✦ 完整解读已就绪' : '✦ AI 正在生成完整解读，预计 30-60 秒...'}
-      </p>
 
-      {isReady ? (
-        <article className="mystic-card rounded-xl p-8 prose prose-lg max-w-none prose-invert prose-headings:text-gold prose-p:text-purple-100/80">
-          {deepText.split('\n').map((line, i) => (
-            <p key={i}>{line || ' '}</p>
-          ))}
-        </article>
-      ) : (
-        <div className="mystic-card flex items-center justify-center gap-3 rounded-xl py-16 text-amber-100/60">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-amber-500 border-t-transparent" />
-          生成中...
-        </div>
-      )}
+      <DeepReportView sessionId={id} initialText={deepText ?? null} />
     </div>
   );
 }
